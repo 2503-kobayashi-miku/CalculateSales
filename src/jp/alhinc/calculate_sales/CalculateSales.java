@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CalculateSales {
@@ -37,6 +39,15 @@ public class CalculateSales {
 		}
 
 		// ※ここから集計処理を作成してください。(処理内容2-1、2-2)
+		File[] files = new File(args[0]).listFiles();
+
+		List<File> rcdFiles = new ArrayList<>();
+
+		for(int i = 0; i < files.length; i++) {
+			if(files[i].getName().matches("^\\d{8}[.]rcd$")) {
+				rcdFiles.add(files[i]);
+			}
+		}
 
 
 
@@ -68,7 +79,10 @@ public class CalculateSales {
 			// 一行ずつ読み込む
 			while((line = br.readLine()) != null) {
 				// ※ここの読み込み処理を変更してください。(処理内容1-2)
-				System.out.println(line);
+				String[] items = line.split(",");
+				int num = 0;
+				branchNames.put(items[num],items[num+1]);
+				branchSales.put(items[num], 0L);
 			}
 
 		} catch(IOException e) {
