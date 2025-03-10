@@ -1,8 +1,10 @@
 package jp.alhinc.calculate_sales;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +47,40 @@ public class CalculateSales {
 
 		for(int i = 0; i < files.length; i++) {
 			if(files[i].getName().matches("^\\d{8}[.]rcd$")) {
+				//売上ファイルの条件に当てはまったものだけ、List(ArrayList) に追加します。
 				rcdFiles.add(files[i]);
+			}
+		}
+
+
+		for(int i = 0; i < rcdFiles.size(); i++) {
+			//売上ファイルの中身を読み込みます。
+			BufferedReader br = null;
+			try {
+				FileReader fr = new FileReader(rcdFiles.get(i));
+				br = new BufferedReader(fr);
+
+				String code = br.readLine();
+				String sales = br.readLine();
+
+
+				long fileSale = Long.parseLong(sales);
+				Long saleAmount = branchSales.get(code) + fileSale;
+				branchSales.put(code,saleAmount);
+
+			} catch(IOException e) {
+				System.out.println(UNKNOWN_ERROR);
+			} finally {
+				// ファイルを開いている場合
+				if(br != null) {
+					try {
+						// ファイルを閉じる
+						br.close();
+					} catch(IOException e) {
+						System.out.println(UNKNOWN_ERROR);
+
+					}
+				}
 			}
 		}
 
@@ -114,7 +149,31 @@ public class CalculateSales {
 	 */
 	private static boolean writeFile(String path, String fileName, Map<String, String> branchNames, Map<String, Long> branchSales) {
 		// ※ここに書き込み処理を作成してください。(処理内容3-1)
+		BufferedWriter bw = null;
+		try {
+			File file = new File("C:\\Users\\trainee1277\\Desktop\\売り上げ集計課題\\" + fileName);
+			FileWriter fw = new FileWriter(file);
+			bw = new BufferedWriter(fw);
+			for (String code : branchNames.keySet()) {
+				bw.write(code + "," + branchNames.get(code) + "," + branchSales.get(code));
+				bw.newLine();
+			}
+			bw.close();
 
+		} catch(IOException e){
+			System.out.println(UNKNOWN_ERROR);
+			return false;
+		} finally {
+			if(bw != null) {
+				try {
+					// ファイルを閉じる
+					bw.close();
+				} catch(IOException e) {
+					System.out.println(UNKNOWN_ERROR);
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 
