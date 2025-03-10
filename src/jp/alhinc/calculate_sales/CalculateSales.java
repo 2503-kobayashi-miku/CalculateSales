@@ -116,7 +116,7 @@ public class CalculateSales {
 				// ※ここの読み込み処理を変更してください。(処理内容1-2)
 				String[] items = line.split(",");
 				int num = 0;
-				branchNames.put(items[num],items[num+1]);
+				branchNames.put(items[num],items[num + 1]);
 				branchSales.put(items[num], 0L);
 			}
 
@@ -151,14 +151,13 @@ public class CalculateSales {
 		// ※ここに書き込み処理を作成してください。(処理内容3-1)
 		BufferedWriter bw = null;
 		try {
-			File file = new File("C:\\Users\\trainee1277\\Desktop\\売り上げ集計課題\\" + fileName);
+			File file = new File(path + "\\" + fileName);
 			FileWriter fw = new FileWriter(file);
 			bw = new BufferedWriter(fw);
 			for (String code : branchNames.keySet()) {
 				bw.write(code + "," + branchNames.get(code) + "," + branchSales.get(code));
 				bw.newLine();
 			}
-			bw.close();
 
 		} catch(IOException e){
 			System.out.println(UNKNOWN_ERROR);
