@@ -35,16 +35,18 @@ public class CalculateSales {
 	 * @param コマンドライン引数
 	 */
 	public static void main(String[] args) {
-		// 支店コードと支店名を保持するMap
-		Map<String, String> branchNames = new HashMap<>();
-		// 支店コードと売上金額を保持するMap
-		Map<String, Long> branchSales = new HashMap<>();
-
 		//コマンドライン引数が1つ設定されていなかった場合、エラーメッセージをコンソールに表示します。
 		if (args.length != 1) {
 			System.out.println(UNKNOWN_ERROR);
 			return;
 		}
+
+		// 支店コードと支店名を保持するMap
+		Map<String, String> branchNames = new HashMap<>();
+		// 支店コードと売上金額を保持するMap
+		Map<String, Long> branchSales = new HashMap<>();
+
+
 
 
 		// 支店定義ファイル読み込み処理
@@ -121,10 +123,11 @@ public class CalculateSales {
 					return;
 				}
 
-				branchSales.put(items.get(0),saleAmount);
+				branchSales.put(items.get(0), saleAmount);
 
 			} catch(IOException e) {
 				System.out.println(UNKNOWN_ERROR);
+				return;
 			} finally {
 				// ファイルを開いている場合
 				if(br != null) {
@@ -133,6 +136,7 @@ public class CalculateSales {
 						br.close();
 					} catch(IOException e) {
 						System.out.println(UNKNOWN_ERROR);
+						return;
 
 					}
 				}
@@ -183,7 +187,7 @@ public class CalculateSales {
 					System.out.println(FILE_INVALID_FORMAT);
 					return false;
 				}
-				branchNames.put(items[num],items[num + 1]);
+				branchNames.put(items[num], items[num + 1]);
 				branchSales.put(items[num], 0L);
 			}
 
@@ -218,7 +222,7 @@ public class CalculateSales {
 		// ※ここに書き込み処理を作成してください。(処理内容3-1)
 		BufferedWriter bw = null;
 		try {
-			File file = new File(path + "\\" + fileName);
+			File file = new File(path, fileName);
 			FileWriter fw = new FileWriter(file);
 			bw = new BufferedWriter(fw);
 			for (String code : branchNames.keySet()) {
