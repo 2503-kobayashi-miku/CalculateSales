@@ -33,7 +33,6 @@ public class CalculateSales {
 	private static final String FILENAME_NOT_SERIAL = "売上ファイル名が連番になっていません";
 	private static final String VALUE_OVER = "合計金額が10桁を超えました";
 	private static final String CODE_NOT_CONTAIN = "の支店コードが不正です";
-	private static final String SALES_FILE_INVALID_FORMAT = "のフォーマットが不正です";
 
 	/**
 	 * メインメソッド
@@ -112,7 +111,7 @@ public class CalculateSales {
 
 				// 売上ファイルの行数が2行ではなかった場合は、エラーメッセージをコンソールに表示します。
 				if(items.size() != 3) {
-					System.out.println(rcdFiles.get(i).getName() + SALES_FILE_INVALID_FORMAT);
+					System.out.println(rcdFiles.get(i).getName() + FILE_INVALID_FORMAT);
 					return;
 				}
 
